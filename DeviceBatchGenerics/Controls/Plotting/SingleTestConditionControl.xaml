@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="DeviceBatchGenerics.Controls.Plotting.SingleTestConditionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeviceBatchGenerics.Controls.Plotting"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             d:SizeToContent="WidthAndHeight" MinWidth="777">
+    <!--This control is for viewing data from all 4 pixels on the device at once with the option to change the selected testCondition-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="4"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <StackPanel HorizontalAlignment="Left">
+                <Label>Selected Test Condition:</Label>
+                <ComboBox 
+                        ItemsSource="{Binding TestConditionsCollection}" 
+                        SelectedItem="{Binding SelectedTestCondition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left">
+                <Label>Left Axis</Label>
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.LJVScanPropertyDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedLeftAxisProperty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.LeftAxisDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedLeftAxis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <Label>Bottom Axis</Label>
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.LJVScanPropertyDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedBottomAxisProperty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.BottomAxisDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedBottomAxis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right">
+                <Label>Right Axis</Label>
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.LJVScanPropertyDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedRightAxisProperty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <ComboBox 
+                        ItemsSource="{Binding LJVPlotVM1.RightAxisDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding LJVPlotVM1.SelectedRightAxis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+            </StackPanel>
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <oxy:PlotView Width="Auto" Grid.Column="0" Height="Auto" MinHeight="333" Model="{Binding LJVPlotVM1.ThePlotModel, UpdateSourceTrigger=PropertyChanged}"/>
+            <oxy:PlotView Width="Auto" Grid.Column="1" Height="Auto" MinHeight="333" Model="{Binding TheELSpecPlotVM.ThePlotModel, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </Grid>
+        <GridSplitter Background="Gray" Grid.Row="2" Height="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></GridSplitter>
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <WrapPanel HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0">
+                <Label>Left Axis</Label>
+                <ComboBox 
+                        ItemsSource="{Binding TheLifetimePlotVM.LifetimePropertyDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding TheLifetimePlotVM.SelectedLeftAxisProperty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <ComboBox 
+                        ItemsSource="{Binding TheLifetimePlotVM.LeftAxisDict}" 
+                        SelectedValuePath="Value" DisplayMemberPath="Key" 
+                        SelectedValue="{Binding TheLifetimePlotVM.SelectedLeftAxis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+            </WrapPanel>
+            <oxy:PlotView Width="Auto" Grid.Row="1" Grid.Column="0" Height="Auto" MinHeight="333" Model="{Binding TheLifetimePlotVM.ThePlotModel, UpdateSourceTrigger=PropertyChanged}"/>
+            <GridSplitter Background="Gray" Grid.Column="1" Grid.RowSpan="3" Width="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></GridSplitter>
+            <ListBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" ItemsSource="{Binding ImageVMCollection,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel >
+                            <TextBlock HorizontalAlignment="Center" FontSize="13" FontWeight="DemiBold" Text="{Binding Label,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Image Height="Auto" Width="Auto" Source="{Binding DisplayedImagePath, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Height="Auto" Width="Auto" IsItemsHost="True" Columns="2"></UniformGrid>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>
